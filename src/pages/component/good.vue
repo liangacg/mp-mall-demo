@@ -7,7 +7,7 @@
 			<view class="title">
 				<view class="text">
 					<text class="price">{{price}}</text>
-					<text class="name">{{tabGood[type].good[num].name}}</text>
+					<text class="name">{{tabGood[type].good[num].name}}{{tabGood[type].good[num].name}}{{tabGood[type].good[num].name}}{{tabGood[type].good[num].name}}</text>
 				</view>
 				<view class="button-group">
 					<view class="btnBuyer">
@@ -23,13 +23,48 @@
 						<text>分享</text>
 					</view>
 				</view>
+			</view>	
+
+			<view class="address">
+				<view class="delidery">
+					<view>发货</view>
+					<view class="address-content">
+						<view>
+							<uni-icons type="location" size="18"></uni-icons>
+							广东深圳
+						</view>
+						<view>快递:免运费</view>
+					</view>
+					<view>月销{{tabGood[type].good[num].num}}</view>
+				</view>
+				<view class="delidery">
+					<view>活动</view>
+					<view class="address-content">
+						<view>
+							<uni-icons type="flag" size="18" color="red"></uni-icons>
+							<text>『领！90元红包』</text>
+						</view>
+					</view>
+					<uni-icons type="forward" size="20"></uni-icons>
+				</view>
+			</view>
+
+			<view class="content">
+				<view class="content-title">———— 商品详情 ————</view>
+				<hr>
+				<view class="detail">
+					商品详情
+				</view>
 			</view>
 		</view>
+
+		<gnav :nav="nav"></gnav>
 	</view>
 </template>
 
 <script>
 	import swiper from '../../components/swiper.vue'
+	import gnav from '../../components/good-nav.vue'
     import {uniIcons} from '@dcloudio/uni-ui'
     import {mapState} from 'vuex';
 
@@ -37,7 +72,22 @@
 		data() {
 			return {
                 num:'',
-                type:''
+				type:'',
+				nav:[
+					{
+						title: '店铺',
+						icon: 'shop',
+						url: '../index/index'
+					},{
+						title: '客服',
+						icon: 'help',
+						url: ''
+					},{
+						title: '购物车',
+						icon: 'cart',
+						url: '../cart/cart'
+					},
+				]
             }
 		},
 		onLoad(option) {
@@ -60,7 +110,8 @@
 		},
 		components: {
 			swiper,
-			uniIcons
+			uniIcons,
+			gnav
         }
 	}
 </script>
@@ -82,7 +133,7 @@
 		background-color: #fff;
 	}
 	.price{
-		font-size: 1.2rem;
+		font-size: 1.4rem;
 		color:rgb(73, 255, 194);
 	}
 	.name{
@@ -93,6 +144,7 @@
 		display: block;
 	}
 	.button-group{
+		padding-top: 0.5rem;
 		display: flex;
 		justify-content:space-between
 	}
@@ -102,5 +154,39 @@
 		width: 30%;
 		display: flex;
 		justify-content:center;
+	}
+	.content-title{
+		padding: 1rem 0;
+		margin: 0 auto;
+		text-align: center;
+		color: #666;	
+	}
+	.detail{
+		width: 100%;
+		height: 100rem;
+		background-color: #fff;
+	}
+	.address{
+		width: 100%;
+		background-color: #fff;
+		margin-top: 0.5rem;
+	}
+	.delidery{
+		display: flex;
+		justify-content: space-between;
+		padding: 0.5rem;
+	}
+	.address-content{
+		padding-right: 1rem;
+		display: flex;
+		justify-content: start;	
+	}
+	.address-content view{
+		padding: 0 0.6rem;
+	}
+	.address-content view:first-child{
+		border-right: 1px solid #eee;
+		display: flex;
+		justify-content: start;	
 	}
 </style>
