@@ -11,7 +11,8 @@ const store = new Vuex.Store({
             {title:'分类',icon:'checkbox',url:'../class/class'},
             {title:'购物车',icon:'camera',url:'../cart/cart'},
             {title:'我',icon:'camera',url:'../my/my'}],
-        tabGood:[]
+        tabGood:[],
+        ueseCode: '无'
     },
     getters:{
     },
@@ -81,6 +82,18 @@ const store = new Vuex.Store({
                     console.log(res)
                 })
             }
+        },
+        login(state){
+            uni.login({
+                success(res){
+                    console.log(res.code)
+                    uni.getUserInfo({
+                        success(res){
+                            console.log(res)
+                        }
+                    })
+                }
+            })
         }
     }  
 })
