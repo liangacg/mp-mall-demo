@@ -1,6 +1,6 @@
 <template>
     <view class="box">
-        <view class="tabsBox">
+        <view class="tabsBox" v-if="title=='true'">
             <view class="tab" v-for="(item,index) in tab" @click="change(index)">
                 <text class="title" :style="{color:(index==selected)?color:''}">{{item.title}}</text>
                 <br>
@@ -23,7 +23,7 @@
                 selected: 0
             }
         },
-        props:['color','tab'],
+        props:['color','tab','title'],
         components:{
             uniIcons,
             goods
@@ -41,6 +41,7 @@
 <style>
     .box{
         width: 100%;
+        padding-bottom: 4rem;
     }
     .tabsBox{
         display: flex;

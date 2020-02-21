@@ -12,9 +12,22 @@ const store = new Vuex.Store({
             {title:'购物车',icon:'camera',url:'../cart/cart'},
             {title:'我',icon:'camera',url:'../my/my'}],
         tabGood:[],
-        ueseCode: '无'
+        refresh: false,
+        userData:{}
     },
     getters:{
+        systemInfo:()=>{
+            let d 
+            uni.getSystemInfo({
+                success(res){
+                    d = res
+                },
+                fail(){
+                    d = '获取失败'
+                }
+            })
+            return d
+        }
     },
     mutations: {
         getData(state){
@@ -84,16 +97,39 @@ const store = new Vuex.Store({
             }
         },
         login(state){
+            wx.cloud.init()
+            let list = wx.cloud.database().collection('mall-users')
             uni.login({
                 success(res){
-                    console.log(res.code)
                     uni.getUserInfo({
                         success(res){
-                            console.log(res)
+                            console.log(res.userInfo)
+                            let userInfo = res.userInfo
+                            list.where({_openid:userInfo.openid}).get({
+                                success(res){
+                                    if(res.data[0]){
+                                        state.userData = res.data[0]
+                                        console.log(res.data[0])
+                                    }else{
+                                        console.log('失败')
+                                        list.add({
+                                            data:{
+                                                name: userInfo.nickName,
+                                                gender: userInfo.gender,
+                                                avatarUrl: userInfo.avatarUrl,
+                                            }
+                                        })
+                                        uni.reLaunch({url:'my'})
+                                    }
+                                }
+                            })
                         }
                     })
                 }
             })
+        },
+        toRefresh(state){
+            state.refresh = false
         }
     }  
 })

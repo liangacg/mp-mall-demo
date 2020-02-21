@@ -4,7 +4,7 @@
 		<box @opa="change">
 		<banner height="10" time="2000" point="true" point-color="red" point-color-s="blue" :img="img" border="true"></banner>
 			<scroll width="90" height="6.5rem" scroll-color="red" scroll-color-s="blue"></scroll>
-			<sw color="rgb(73, 255, 194)" :tab="tabGood"></sw>
+			<sw color="rgb(73, 255, 194)" :tab="tabGood" title="true"></sw>
 		</box>
 		<bNav selected="1" :nav="navarr" btn-color="red" btn-color-s="blue" bg-color="aquamarine" font-color="red"></bNav>
 	</view>
@@ -64,6 +64,5 @@
 <style>
 	.index{
 		background-color: #eee;
-		height: 200rem;
 	}
 </style>
