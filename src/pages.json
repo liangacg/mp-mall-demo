@@ -1,9 +1,9 @@
 {
 	"pages": [
 		{
-			"path": "pages/my/my",
+			"path": "pages/cart/cart",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "购物车"
 			}
 		},
 		{
@@ -13,9 +13,9 @@
 			}
 		},
 		{
-			"path": "pages/cart/cart",
+			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "购物车"
+				"navigationBarTitleText": "我的"
 			}
 		},
 		{

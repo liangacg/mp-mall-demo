@@ -15,6 +15,7 @@ const store = new Vuex.Store({
         refresh: false,
         userData:{}
     },
+
     getters:{
         systemInfo:()=>{
             let d 
@@ -31,11 +32,11 @@ const store = new Vuex.Store({
     },
     mutations: {
         getData(state){
+            console.log('开始获取商品列表')
             wx.cloud.init()
             state.tabGood = []
             let table = wx.cloud.database().collection('mall-good')
             table.where({type:'A'}).get().then(res=>{
-                console.log(res.data)
                 state.tabGood.push(
                     {
                         title:'全部',
@@ -46,7 +47,6 @@ const store = new Vuex.Store({
                 )
             })
             table.where({type:'B'}).get().then(res=>{
-                console.log(res.data)
                 state.tabGood.push(
                     {
                         title:'直播',
@@ -57,7 +57,6 @@ const store = new Vuex.Store({
                 )
             })
             table.where({type:'C'}).get().then(res=>{
-                console.log(res.data)
                 state.tabGood.push(
                     {
                         title:'便宜好货',
@@ -68,7 +67,6 @@ const store = new Vuex.Store({
                 )
             })
             table.where({type:'D'}).get().then(res=>{
-                console.log(res.data)
                 state.tabGood.push(
                     {
                         title:'洋淘',
@@ -78,6 +76,7 @@ const store = new Vuex.Store({
                     }
                 )
             })
+            console.log('获取商品列表成功')
         },
         addData(state){
             wx.cloud.init()
@@ -92,7 +91,7 @@ const store = new Vuex.Store({
                         type: 'D'
                     }
                 }).then(res=>{
-                    console.log(res)
+                    console.log('商品添加成功')
                 })
             }
         },
@@ -103,13 +102,13 @@ const store = new Vuex.Store({
                 success(res){
                     uni.getUserInfo({
                         success(res){
-                            console.log(res.userInfo)
+                            console.log('获取用户信息')
                             let userInfo = res.userInfo
                             list.where({_openid:userInfo.openid}).get({
                                 success(res){
                                     if(res.data[0]){
                                         state.userData = res.data[0]
-                                        console.log(res.data[0])
+                                        console.log(state.userData)
                                     }else{
                                         console.log('失败')
                                         list.add({
