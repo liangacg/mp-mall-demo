@@ -58,7 +58,7 @@
 			</view>
 		</view>
 
-		<gnav :nav="nav"></gnav>
+		<gnav :nav="nav" @add="add"></gnav>
 	</view>
 </template>
 
@@ -66,7 +66,7 @@
 	import swiper from '../../components/swiper.vue'
 	import gnav from '../../components/good-nav.vue'
     import {uniIcons} from '@dcloudio/uni-ui'
-    import {mapState} from 'vuex';
+    import {mapState,mapMutations} from 'vuex';
 
 	export default {
 		data() {
@@ -96,9 +96,39 @@
             this.type = option.type
 		},
 		methods: {
+			...mapMutations(['login']),
+			add(){
+				let cartList = JSON.parse(JSON.stringify(this.userData.cart))
+				let goodId = this.tabGood[this.type].good[this.num]._id
+				let hadIf = true
+				cartList.forEach(d=>{
+					if(d.id==goodId){
+						hadIf = false
+						d.num +=1
+					}
+				})
+				if(hadIf){
+					cartList.push({
+						id: goodId,
+						num: 1
+					})
+				}
+				console.log(cartList)
+				wx.cloud.init()
+				let list = wx.cloud.database().collection('mall-users')
+				list.doc(this.userData._id).update({
+					data:{
+						cart: cartList
+					}
+				}).then(res=>{
+					console.log('提交成功')
+					console.log(res)
+				})
+				this.login()
+			}
 		},
 		computed:{
-			...mapState(['tabGood']),
+			...mapState(['tabGood','userData']),
 			price(){
 				let p = this.tabGood[this.type].good[this.num].price
 				if(parseInt(p)==parseFloat(p)){

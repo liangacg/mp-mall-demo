@@ -6,7 +6,7 @@
             <!-- 如果没有文字则值显示图标 -->
         </div>
         <view class="btn">
-        <view class="button">
+            <view class="button" @click="addCart">
                 <p>加入购物车</p> 
             </view>
             <view class="button">
@@ -36,6 +36,9 @@
                 uni.redirectTo({
                     url:src
                 })
+            },
+            addCart(){
+                 this.$emit('add')
             }
         }
     }

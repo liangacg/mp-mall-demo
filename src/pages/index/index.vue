@@ -23,6 +23,7 @@
 	export default {
 		onLoad(){
 			this.getData()
+			this.login()
 		},
 		data() {
 			return {
@@ -47,7 +48,7 @@
 					this.opacity = 0
 				}
 			},
-			...mapMutations(['getData'])
+			...mapMutations(['getData','login'])
 		},
 		components: {
 			se,

@@ -1,9 +1,9 @@
 {
 	"pages": [
 		{
-			"path": "pages/cart/cart",
-			"style": {
-				"navigationBarTitleText": "购物车"
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "主页"
 			}
 		},
 		{
@@ -19,9 +19,9 @@
 			}
 		},
 		{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarTitleText": "主页"
+			"path": "pages/cart/cart",
+			"style": {
+				"navigationBarTitleText": "购物车"
 			}
 		},
 		{

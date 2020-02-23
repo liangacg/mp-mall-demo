@@ -1,5 +1,5 @@
 <template>
-	<view class="index" @click.once="cartInit">
+	<view class="index" @click="cartInit">
 		<view class="cart-box">
 			<view class="good" v-for="(item,index) in userCart">
 				<view class="left">
@@ -40,7 +40,6 @@
 
 	export default {
 		onLoad() {
-			this.login()
 			this.cartInit()
 		},
 		data() {
@@ -75,6 +74,7 @@
 					console.log(that.userCart)
 				}else{
 					console.log('获取购物车失败')
+					uni.reLaunch({url:'cart'})
 				}
 			},
 			check(index){

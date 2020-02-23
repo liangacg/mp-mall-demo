@@ -115,8 +115,6 @@
 
 	export default {
 		onLoad() {
-			this.getData()
-			this.login()
 			this.check()
 		},
 		data() {
