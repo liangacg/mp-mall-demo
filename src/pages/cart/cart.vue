@@ -1,10 +1,10 @@
 <template>
-	<view class="index" @click="cartInit">
+	<view class="index">
 		<view class="cart-box">
 			<view class="good" v-for="(item,index) in userCart">
 				<view class="left">
 					<radio @click="check(index)" :checked="item.checked"></radio>
-					<cover-image :src="'../'+item.data.img" class="good-img"></cover-image>
+					<cover-image :src="'../'+item.data.img" class="good-img" @click="link(item)"></cover-image>
 				</view>
 				<view class="right">
 					<p>	{{item.data.name}}{{item.data.name}}{{item.data.name}}</p>
@@ -107,13 +107,19 @@
 						d.checked = true
 					})
 				}
+			},
+			link(item){
+				uni.navigateTo({
+                    url: '../component/idToGood?id='+item.data._id,
+                    fail:function(err){console.log(err)}
+                })
 			}
 		},
 		components: {
 			bNav
         },
 		computed:{
-			...mapState(['userData']),
+			...mapState(['userData','tabGood']),
 			allChecked(){
 				let all = true
 				this.userCart.forEach(d=>{
@@ -139,7 +145,7 @@
 
 <style>
 	.index{
-		padding: 1rem 0 4rem 0;
+		padding: 1rem 0 7rem 0;
 		background-color: #eee;
 	}
 	.good{
@@ -196,7 +202,7 @@
 		border-right: 1px solid #eee;
 	}
 	.bottom{
-		position: absolute;
+		position: fixed;
 		bottom: 3.4rem;
 		display: flex;
 		justify-content: space-between;
@@ -204,6 +210,7 @@
 		width: 100%;
 		height: 3rem;
 		border-top: 1px solid #eee;
+		background-color: #fff;
 	}
 	.future{
 		width: 20%;

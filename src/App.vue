@@ -1,8 +1,11 @@
 <script>
 	import Vue from 'vue'
+    import {mapState,mapGetters,mapMutations} from 'vuex';
 
 	export default {
 		onLaunch: function() {
+			uni.login()
+            this.loadUserData()
 			console.log('App Lanuch')
 		},
 		onShow: function() {
@@ -10,6 +13,9 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		methods:{
+			...mapMutations(['loadUserData'])
 		}
 	}
 </script>

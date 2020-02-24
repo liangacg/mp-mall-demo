@@ -25,9 +25,15 @@
 			}
 		},
 		{
-			"path": "pages/component/good",
+			"path": "pages/component/idToGood",
 			"style": {
 				"navigationBarTitleText": "商品"
+			}
+		},
+		{
+			"path": "pages/testpage/testpage",
+			"style": {
+				"navigationBarTitleText": "测试页面"
 			}
 		}
 	],

@@ -28,6 +28,15 @@ const store = new Vuex.Store({
                 }
             })
             return d
+        },
+        id:()=>{
+            uni.getUserInfo({
+                success(res){
+                    let userInfo = res.userInfo
+                    let idnum = userInfo.openid
+                    return idnum
+                }
+            })
         }
     },
     mutations: {
@@ -79,7 +88,7 @@ const store = new Vuex.Store({
             console.log('获取商品列表成功')
         },
         addData(state){
-            wx.cloud.init()
+            
             let db = wx.cloud.database()
             for(var i=1;i<10;i++){
                 db.collection('mall-good').add({
@@ -96,32 +105,29 @@ const store = new Vuex.Store({
             }
         },
         login(state){
-            wx.cloud.init()
+        },
+        loadUserData(state){ 
             let list = wx.cloud.database().collection('mall-users')
-            uni.login({
+            uni.getUserInfo({
                 success(res){
-                    uni.getUserInfo({
+                    console.log('获取用户信息')
+                    let userInfo = res.userInfo
+                    list.where({_openid:userInfo.openid}).get({
                         success(res){
-                            console.log('获取用户信息')
-                            let userInfo = res.userInfo
-                            list.where({_openid:userInfo.openid}).get({
-                                success(res){
-                                    if(res.data[0]){
-                                        state.userData = res.data[0]
-                                        console.log(state.userData)
-                                    }else{
-                                        console.log('失败')
-                                        list.add({
-                                            data:{
-                                                name: userInfo.nickName,
-                                                gender: userInfo.gender,
-                                                avatarUrl: userInfo.avatarUrl,
-                                            }
-                                        })
-                                        uni.reLaunch({url:'my'})
+                            if(res.data[0]){
+                                state.userData = res.data[0]
+                                console.log(state.userData)
+                            }else{
+                                console.log('失败')
+                                list.add({
+                                    data:{
+                                        name: userInfo.nickName,
+                                        gender: userInfo.gender,
+                                        avatarUrl: userInfo.avatarUrl,
                                     }
-                                }
-                            })
+                                })
+                                uni.reLaunch({url:'my'})
+                            }
                         }
                     })
                 }

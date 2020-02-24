@@ -1,7 +1,7 @@
 <template>
     <view class="box">
         <view class="left">
-            <view :class="{good,w90:index==clickIndex}" v-for="(item,index) in leftGoods" :style="{width:goodWidth+'%'}" @touchstart="start(index)" @touchend="end" @click="link(index,'left')">
+            <view :class="{good,w90:index==clickIndex}" v-for="(item,index) in leftGoods" :style="{width:goodWidth+'%'}" @touchstart="start(index)" @touchend="end" @click="link(item)">
             <cover-image :src="item.img" class="image"></cover-image>
             <view class="text">
                 <view class="title">{{item.name}}</view>
@@ -16,7 +16,7 @@
         </view>
         </view>
         <view class="right">
-            <view :class="{good,w90:index+100==clickIndex}" v-for="(item,index) in rightGoods" :style="{width:goodWidth+'%'}" @touchstart="start(index+100)" @touchend="end" @click="link(index,'right')">
+            <view :class="{good,w90:index+100==clickIndex}" v-for="(item,index) in rightGoods" :style="{width:goodWidth+'%'}" @touchstart="start(index+100)" @touchend="end"  @click="link(item)">
             <cover-image :src="item.img" class="image"></cover-image>
             <view class="text">
                 <view class="title">{{item.name}}</view>
@@ -69,19 +69,9 @@
             end(){
                 this.clickIndex = 99999
             },
-            link(index,n){
-                let num
-                if(n=='left'){
-                    if(index==0){
-                        num = 0
-                    }else{
-                        num =index*2
-                    }
-                }else if(n=='right'){
-                    num = index*2+1
-                }
-                uni.navigateTo({
-                    url: '../component/good?type='+(this.type-1)+'&num='+num,
+            link(item){
+				uni.navigateTo({
+                    url: '../component/idToGood?id='+item._id,
                     fail:function(err){console.log(err)}
                 })
             }
