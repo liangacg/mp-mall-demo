@@ -69,6 +69,8 @@
     import {mapState,mapMutations} from 'vuex';
 
 	export default {
+		onUnload(){
+		},
 		data() {
 			return {
 				id:'',
@@ -107,16 +109,19 @@
 				let cartList = JSON.parse(JSON.stringify(this.userData.cart))
 				let goodId = this.goodData._id
 				let hadIf = true
+				let date = new Date()
 				cartList.forEach(d=>{
 					if(d.id==goodId){
 						hadIf = false
 						d.num +=1
+						d.date = date.getTime()
 					}
 				})
 				if(hadIf){
 					cartList.push({
 						id: goodId,
-						num: 1
+						num: 1,
+						date: date.getTime()
 					})
 				}
 				console.log(cartList)
@@ -129,8 +134,8 @@
 				}).then(res=>{
 					console.log('提交成功')
 					console.log(res)
+					this.login()
 				})
-				this.login()
 			}
 		},
 		computed:{

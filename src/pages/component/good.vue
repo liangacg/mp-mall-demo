@@ -90,6 +90,9 @@
 				]
             }
 		},
+		onUnload(){
+			console.log('back')
+		},
 		onLoad(option) {
             console.log(option)
             this.num = option.num

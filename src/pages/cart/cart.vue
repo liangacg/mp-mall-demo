@@ -1,7 +1,7 @@
 <template>
 	<view class="index">
 		<view class="cart-box">
-			<view class="good" v-for="(item,index) in userCart">
+			<view class="good" v-for="(item,index) in userCartSort" @back="cartInit">
 				<view class="left">
 					<radio @click="check(index)" :checked="item.checked"></radio>
 					<cover-image :src="'../'+item.data.img" class="good-img" @click="link(item)"></cover-image>
@@ -11,9 +11,9 @@
 					<view class="number">
 						<p class="price">	￥{{item.data.price}}.00</p>
 						<view class="numbtn">
-							<view @click="raduce(index)" class="btn">-</view>
+							<view @click="raduce(index,item)" class="btn">-</view>
 							<view class="numtext">{{item.num}}</view>
-							<view @click="add(index)" class="btn">+</view>
+							<view @click="add(index,item)" class="btn">+</view>
 						</view>
 					</view>
 				</view>
@@ -39,7 +39,7 @@
 	import bNav from '../../components/nav.vue'
 
 	export default {
-		onLoad() {
+		onShow(){
 			this.cartInit()
 		},
 		data() {
@@ -54,19 +54,20 @@
 				console.log()
 			},
 			cartInit(){
+				this.userCart = []
 				const that = this
 				wx.cloud.init()
 				let table = wx.cloud.database().collection('mall-good')
-				let list =[]
 				if(this.userData.cart){
-					let d = JSON.parse(JSON.stringify(this.userData.cart))
-					for(let i in d){
-						table.doc(d[i].id).get({
+					let list = JSON.parse(JSON.stringify(this.userData.cart))
+					for(let i in list){
+						table.doc(list[i].id).get({
 							success(res){
 								that.userCart.push({
 									data: res.data,
 									checked: false,
-									num: d[i].num
+									num: list[i].num,
+									date: list[i].date
 								})
 							}
 						})
@@ -77,18 +78,20 @@
 					uni.reLaunch({url:'cart'})
 				}
 			},
-			check(index){
+			check(index,item){
 				this.userCart[index].checked = !this.userCart[index].checked
 			},
-			add(index){
+			add(index,item){
 				if(this.userCart[index].num>0){
 					this.userCart[index].num +=1
 				}
+				this.updata(item,true)
 			},
-			raduce(index){
+			raduce(index,item){
 				if(this.userCart[index].num>1){
 					this.userCart[index].num -=1
 				}
+				this.updata(item,false)
 			},
 			future(){
 				const that = this
@@ -113,6 +116,31 @@
                     url: '../component/idToGood?id='+item.data._id,
                     fail:function(err){console.log(err)}
                 })
+			},
+			updata(item,or){
+				let Data = JSON.parse(JSON.stringify(this.userData.cart))
+				Data.forEach((d,index)=>{
+					console.log(d.num)
+					if(item.data._id == d.id){
+						if(or){
+							d.num+=1
+						}else{
+							d.num-=1
+						}
+						console.log(d.num)
+					}
+				})
+				wx.cloud.init()
+				let list = wx.cloud.database().collection('mall-users')
+				list.doc(this.userData._id).update({
+					data:{
+						cart: Data
+					}
+				}).then(res=>{
+					console.log('提交成功')
+					console.log(res)
+					this.login()
+				})
 			}
 		},
 		components: {
@@ -138,6 +166,11 @@
 				})
 				return price
 
+			},
+			userCartSort(){
+				let list = this.userCart
+				list.sort((a,b)=>{return b.date - a.date})
+				return list
 			}
 		}
 	}

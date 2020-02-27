@@ -4,8 +4,7 @@
 
 	export default {
 		onLaunch: function() {
-			uni.login()
-            this.loadUserData()
+			this.login()
 			console.log('App Lanuch')
 		},
 		onShow: function() {
@@ -15,7 +14,7 @@
 			console.log('App Hide')
 		},
 		methods:{
-			...mapMutations(['loadUserData'])
+			...mapMutations(['login'])
 		}
 	}
 </script>

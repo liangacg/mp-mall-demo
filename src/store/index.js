@@ -54,36 +54,36 @@ const store = new Vuex.Store({
                         good:res.data
                     }
                 )
-            })
-            table.where({type:'B'}).get().then(res=>{
-                state.tabGood.push(
-                    {
-                        title:'直播',
-                        introduce:'万象初始',
-                        type:2,
-                        good:res.data
-                    }
-                )
-            })
-            table.where({type:'C'}).get().then(res=>{
-                state.tabGood.push(
-                    {
-                        title:'便宜好货',
-                        introduce:'宅家抢购',
-                        type:3,
-                        good:res.data
-                    }
-                )
-            })
-            table.where({type:'D'}).get().then(res=>{
-                state.tabGood.push(
-                    {
-                        title:'洋淘',
-                        introduce:'买家秀',
-                        type:4,
-                        good:res.data
-                    }
-                )
+                table.where({type:'B'}).get().then(res=>{
+                    state.tabGood.push(
+                        {
+                            title:'直播',
+                            introduce:'万象初始',
+                            type:2,
+                            good:res.data
+                        }
+                    )
+                })
+                table.where({type:'C'}).get().then(res=>{
+                    state.tabGood.push(
+                        {
+                            title:'便宜好货',
+                            introduce:'宅家抢购',
+                            type:3,
+                            good:res.data
+                        }
+                    )
+                })
+                table.where({type:'D'}).get().then(res=>{
+                    state.tabGood.push(
+                        {
+                            title:'洋淘',
+                            introduce:'买家秀',
+                            type:4,
+                            good:res.data
+                        }
+                    )
+                })
             })
             console.log('获取商品列表成功')
         },
@@ -104,9 +104,7 @@ const store = new Vuex.Store({
                 })
             }
         },
-        login(state){
-        },
-        loadUserData(state){ 
+        login(state){ 
             let list = wx.cloud.database().collection('mall-users')
             uni.getUserInfo({
                 success(res){
