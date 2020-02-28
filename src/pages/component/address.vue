@@ -1,11 +1,12 @@
 <template>
 	<view class="index">
 		<add></add>
-	地址管理
+	<get></get>
 	</view>
 </template>
 <script>
 	import add from '../../components/add-address.vue'
+	import get from '../../components/get-address.vue'
     import {uniIcons} from '@dcloudio/uni-ui'
     import {mapState,mapMutations} from 'vuex';
 
@@ -24,7 +25,8 @@
 		},
 		components: {
 			uniIcons,
-			add
+			add,
+			get
         }
 	}
 </script>

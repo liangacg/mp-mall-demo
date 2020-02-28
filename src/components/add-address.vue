@@ -1,5 +1,5 @@
 <template>
-    <view class="box" :style="{height: (testData.form)?28+'rem':5+'rem'}">
+    <view class="box" :style="{height: boxHeight+'rem'}">
         <view class="address-table" v-if="testData.form">
             <view class="close">
                 <view> </view>
@@ -53,7 +53,7 @@
 
 <script>
     import {uniIcons} from '@dcloudio/uni-ui'
-    import {mapState} from 'vuex'
+    import {mapState,mapMutations} from 'vuex';
 	import area from './city-data/area.js'
 	import city from './city-data/city.js'
 	import province from './city-data/province.js'
@@ -99,18 +99,32 @@
             },
             addressData(){
                 let list ={
-                    address: this.name,
+                    name: this.name,
                     number: this.number,
-                    province: this.provinceData[this.selectProvince],
-                    city: this.cityData[this.selectCity],
-                    area: this.areaData[this.areaSelect],
-                    detailed: this.detail,
+                    province: this.provinceData[this.selectProvince].label,
+                    city: this.cityData[this.selectCity].label,
+                    area: this.areaData[this.selectArea].label,
+                    detailed: this.detailed,
                     zip: this.zip
                 }
                 return list
+            },
+            boxHeight(){
+                if(this.testData.form){
+                    if(this.testData.city){
+                        return 29
+                    }else if(this.testData.province){
+                        return 26
+                    }else{
+                        return 24
+                    }
+                }else{
+                    return 5
+                }
             }
         },
         methods:{
+			...mapMutations(['login']),
             provinceSelect(event){
                 this.selectProvince = event.detail.value
                 this.testData.province = true
@@ -149,6 +163,7 @@
                         }
                     }).then(res=>{
                         console.log(res)
+                        this.login()
                         this.init()
                     })
                 }else{
@@ -187,9 +202,9 @@
                 this.number = ''
                 this.zip = ''
                 this.detailed = ''
-                this.provinceSelect = 0
-                this.citySelect = 0
-                this.area = 0
+                this.selectProvince = 0
+                this.selectCity = 0
+                this.selectArea = 0
                 this.testData = {
                     name: true,
                     number: true,
@@ -213,6 +228,7 @@
         margin: 0 auto;
         padding-bottom: 1rem;
         transition: all 0.3s;
+        margin-bottom: 1rem;
     }
     .add-btn{
         display: flex;

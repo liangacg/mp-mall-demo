@@ -32,6 +32,5 @@
 
 <style>
 	.index{
-		background-color: #eee;
 	}
 </style>
